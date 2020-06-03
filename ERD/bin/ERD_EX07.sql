@@ -1,0 +1,123 @@
+
+/* Drop Tables */
+
+DROP TABLE Book_Management CASCADE CONSTRAINTS;
+DROP TABLE Rend CASCADE CONSTRAINTS;
+DROP TABLE Book CASCADE CONSTRAINTS;
+DROP TABLE Client CASCADE CONSTRAINTS;
+DROP TABLE Client_Management CASCADE CONSTRAINTS;
+DROP TABLE Employee CASCADE CONSTRAINTS;
+
+
+
+
+/* Create Tables */
+
+CREATE TABLE Book
+(
+	Book_Num number(10) NOT NULL,
+	Book_Name varchar2(30),
+	Book_Publisher varchar2(30),
+	Book_Genre varchar2(30),
+	Book_Writer varchar2(30),
+	Book_Price number(10),
+	PRIMARY KEY (Book_Num)
+);
+
+
+CREATE TABLE Book_Management
+(
+	Book_Management_Num number(10) NOT NULL,
+	Book_Management_Position varchar2(30),
+	Book_Management_Status varchar2(30),
+	Employee_Num number(10) NOT NULL,
+	Book_Num number(10) NOT NULL,
+	PRIMARY KEY (Book_Management_Num)
+);
+
+
+CREATE TABLE Client
+(
+	Client_Num number(10) NOT NULL,
+	Client_Name varchar2(30),
+	Client_Sex char(2),
+	Client_Phone_Num number(10),
+	Client_Address varchar2(30),
+	Client_Management_Num number(10) NOT NULL,
+	PRIMARY KEY (Client_Num)
+);
+
+
+CREATE TABLE Client_Management
+(
+	Client_Management_Num number(10) NOT NULL,
+	Client_Management_Date date DEFAULT SYSDATE,
+	Employee_Num number(10) NOT NULL,
+	PRIMARY KEY (Client_Management_Num)
+);
+
+
+CREATE TABLE Employee
+(
+	Employee_Num number(10) NOT NULL,
+	Employee_Pw number(10),
+	Employee_Name varchar2(30),
+	Employee_Phone_Num number(10),
+	PRIMARY KEY (Employee_Num)
+);
+
+
+CREATE TABLE Rend
+(
+	Rend_Num number(10) NOT NULL,
+	Rend_Count number(10),
+	Rend_Start_Date date DEFAULT SYSDATE,
+	Rend_End_Date date DEFAULT SYSDATE,
+	Rend_Rental_Fee number(10),
+	Rend_Late_Fee number(10),
+	Book_Num number(10) NOT NULL,
+	Client_Num number(10) NOT NULL,
+	PRIMARY KEY (Rend_Num)
+);
+
+
+
+/* Create Foreign Keys */
+
+ALTER TABLE Book_Management
+	ADD FOREIGN KEY (Book_Num)
+	REFERENCES Book (Book_Num)
+;
+
+
+ALTER TABLE Rend
+	ADD FOREIGN KEY (Book_Num)
+	REFERENCES Book (Book_Num)
+;
+
+
+ALTER TABLE Rend
+	ADD FOREIGN KEY (Client_Num)
+	REFERENCES Client (Client_Num)
+;
+
+
+ALTER TABLE Client
+	ADD FOREIGN KEY (Client_Management_Num)
+	REFERENCES Client_Management (Client_Management_Num)
+;
+
+
+ALTER TABLE Book_Management
+	ADD FOREIGN KEY (Employee_Num)
+	REFERENCES Employee (Employee_Num)
+;
+
+
+ALTER TABLE Client_Management
+	ADD FOREIGN KEY (Employee_Num)
+	REFERENCES Employee (Employee_Num)
+;
+
+
+
